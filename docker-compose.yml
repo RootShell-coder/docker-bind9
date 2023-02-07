@@ -1,0 +1,21 @@
+version: '3.9'
+
+networks:
+  named:
+    name: named
+    driver: bridge
+
+services:
+  bind:
+    image: bind
+    networks:
+      - named
+    environment:
+      - TZ=Europe/Moscow
+      - LOCALE=ru_RU
+      - CRON_HINT_FILE="https://www.internic.net/domain/named.root"
+      - CRON_HINT_TIME="0 1 1 * * *"
+    ports:
+      - 953:953/TCP
+      - 53:53/TCP
+      - 53:53/UDP
