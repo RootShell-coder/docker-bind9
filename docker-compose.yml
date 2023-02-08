@@ -4,18 +4,30 @@ networks:
   named:
     name: named
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/24
+          gateway: 172.18.0.1
+
+volumes:
+  bind_conf:
+    name: bind_conf
 
 services:
   bind:
-    image: bind
+    image: rootshellcoder/bind9
     networks:
       - named
+    volumes:
+      - bind_conf:/etc/bind
     environment:
       - TZ=Europe/Moscow
       - LOCALE=ru_RU
-      - CRON_HINT_FILE="https://www.internic.net/domain/named.root"
-      - CRON_HINT_TIME="0 1 1 * * *"
+      - CRON_HINT_FILE='https://www.internic.net/domain/named.root'
+      - CRON_HINT_TIME='0 1 1 * * *'
     ports:
-      - 953:953/TCP
-      - 53:53/TCP
-      - 53:53/UDP
+      - 8080:8080/tcp
+      - 953:953/tcp
+      - 172.18.0.1:53:53/tcp
+      - 172.18.0.1:53:53/udp
