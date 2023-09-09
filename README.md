@@ -2,8 +2,7 @@
 
 [![bind9](https://github.com/RootShell-coder/docker-bind9/actions/workflows/docker_build.yml/badge.svg?branch=master)](https://github.com/RootShell-coder/docker-bind9/actions/workflows/docker_build.yml)
 
-
-_Split horizon DNS with bind9 and auto update named.root_
+Split horizon DNS with bind9 and auto update named.root
 
 `wget https://raw.githubusercontent.com/RootShell-coder/docker-bind9/master/docker-compose.yml`
 
@@ -45,12 +44,18 @@ services:
 
 `docker compose up -d`
 
-## external
+`docker ps`
 
+```bash
+CONTAINER ID   IMAGE     COMMAND        CREATED         STATUS         PORTS                                                                                                                            NAMES
+5e3ac0fffef2   bind      "entrypoint"   8 seconds ago   Up 7 seconds   0.0.0.0:953->953/tcp, :::953->953/tcp, 172.18.0.1:53->53/tcp, 172.18.0.1:53->53/udp, 0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   bind-bind-1
+```
+
+## external
 
 `dig @172.18.0.2 A www.example.com`
 
-```
+```bash
 ; <<>> DiG 9.16.33-RH <<>> @172.18.0.2 A www.example.com
 ; (1 server found)
 ;; global options: +cmd
@@ -77,16 +82,9 @@ www.example.com.        600     IN      A       172.18.0.2
 
 ## internal
 
-`docker ps`
+`docker exec -ti 5e dig @127.0.0.1 A www.example.com`
 
-```
-CONTAINER ID   IMAGE     COMMAND        CREATED         STATUS         PORTS                                                                                                                            NAMES
-5e3ac0fffef2   bind      "entrypoint"   8 seconds ago   Up 7 seconds   0.0.0.0:953->953/tcp, :::953->953/tcp, 172.18.0.1:53->53/tcp, 172.18.0.1:53->53/udp, 0.0.0.0:8080->8080/tcp, :::8080->8080/tcp   bind-bind-1
-```
-`docker exec -ti 5e sh`
-
-`dig @127.0.0.1 A www.example.com`
-```
+```bash
 ; <<>> DiG 9.18.11 <<>> @127.0.0.1 A www.example.com
 ; (1 server found)
 ;; global options: +cmd
