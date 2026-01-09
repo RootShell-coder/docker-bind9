@@ -10,7 +10,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository_owner }}/${{ github.event.repository.name }}
   TRIVY_SECURITY: SECURITY
 
 jobs:
@@ -24,6 +24,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set lowercase image name
+        run: echo "IMAGE_NAME=$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
 
       - name: Extract tag from workflow run
         run: |
