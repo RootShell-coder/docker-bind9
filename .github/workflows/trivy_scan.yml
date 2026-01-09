@@ -1,0 +1,58 @@
+name: Trivy Security Scan ${{ github.event.repository.name }}
+
+on:
+  workflow_run:
+    workflows: ["${{ github.event.repository.name }}"]
+    types:
+      - completed
+    branches:
+      - master
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  TRIVY_SECURITY: SECURITY
+
+jobs:
+  trivy-scan:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract tag from workflow run
+        run: |
+          TAG_REF="${{ github.event.workflow_run.head_ref }}"
+          if [[ $TAG_REF == refs/tags/* ]]; then
+            TAG_NAME="${TAG_REF#refs/tags/}"
+          else
+            TAG_NAME="latest"
+          fi
+          echo "LATEST_TAG=$TAG_NAME" >> $GITHUB_ENV
+
+      - name: Log into registry ${{ env.REGISTRY }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull Docker image
+        run: docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.LATEST_TAG }}
+
+      - name: Run Trivy vulnerability scan
+        run: |
+          docker run --rm ${{ env.REGISTRY }}/rootshell-coder/trivy-cached:latest image ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.LATEST_TAG }} --skip-db-update > ${{ env.TRIVY_SECURITY }}
+
+      - name: Commit and push SECURITY file
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add ${{ env.TRIVY_SECURITY }}
+          git commit -m "Add Trivy security scan results" || echo "No changes to commit"
+          git push

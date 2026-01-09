@@ -1,33 +1,22 @@
-version: '3.9'
-
-networks:
-  named:
-    name: named
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.0.0/24
-          gateway: 172.18.0.1
-
-volumes:
-  bind_conf:
-    name: bind_conf
-
+---
 services:
   bind:
-    image: rootshellcoder/bind9
-    networks:
-      - named
-    volumes:
-      - bind_conf:/etc/bind
-    environment:
-      - TZ=Europe/Moscow
-      - LOCALE=ru_RU
-      - CRON_HINT_FILE='https://www.internic.net/domain/named.root'
-      - CRON_HINT_TIME='0 1 1 * * *'
+    image: docker-bind9:latest
     ports:
-      - 8080:8080/tcp
-      - 953:953/tcp
-      - 172.18.0.1:53:53/tcp
-      - 172.18.0.1:53:53/udp
+      - "53:53/udp"     # DNS
+      - "53:53/tcp"     # DNS
+    #  - "853:853/tcp"   # DoT
+    #  - "8080:8080"     # Statistic
+    #  - "953:953"       # mgmt
+    restart: always
+    volumes:
+      - ./bind/dnssec/:/etc/bind/dnssec
+      - ./bind/int/:/etc/bind/int
+      - ./bind/named.conf:/bind/named.conf
+    #  - ./ssl/:/etc/ssl/bind/
+    #  - ./bind/acl.conf:/etc/bind/acl.conf
+    #  - ./bind/option.conf:/bind/option.conf
+    # environment:
+    #   - ADBLOCK="true"
+    #   - ADBLOCK_HOSTS_URL="https://raw.githubusercontent.com/StevenBlack/hosts/refs/heads/master/data/StevenBlack/hosts"
+    #   - ADBLOCK_RPZ_FILE="/etc/bind/adblock/db.rpz.adblock"

@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/sbin/named -c /etc/bind/named.conf -g -u named

@@ -1,0 +1,21 @@
+$TTL 300
+$ORIGIN rpz.adblock.
+@   IN  SOA rpz.adblock. admin.rpz.adblock. (
+    2025122000  ; Serial number (YYYYMMDDHH)
+    3600        ; Refresh (1 hour)
+    600         ; Retry (10 minutes)
+    604800      ; Expire (1 week)
+    300         ; Minimum TTL (5 minutes)
+)
+    IN  NS  localhost.
+
+; RPZ zone for adblock
+; This file will be automatically updated by the script
+
+; Sample records (will be replaced automatically):
+; doubleclick.net CNAME .
+; *.doubleclick.net CNAME .
+; googlesyndication.com CNAME .
+; *.googlesyndication.com CNAME .
+
+; Domains will be added automatically by the update script
