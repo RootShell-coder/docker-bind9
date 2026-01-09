@@ -6,6 +6,7 @@ $TTL 86400
     604800     ; expire
     86400      ; minimum
 )
+
 @ IN NS ns.example.com.
 ns IN A 127.0.0.1
 @ IN A 127.0.0.1
