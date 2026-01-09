@@ -2,6 +2,7 @@ name: Trivy Security Scan
 
 on:
   workflow_run:
+    workflows: ["Docker Build"]
     types:
       - completed
     branches:
