@@ -1,8 +1,7 @@
-name: Trivy Security Scan ${{ github.event.repository.name }}
+name: Trivy Security Scan
 
 on:
   workflow_run:
-    workflows: ["${{ github.event.repository.name }}"]
     types:
       - completed
     branches:
