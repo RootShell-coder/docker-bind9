@@ -45,7 +45,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=ref,event=tag
-            type=raw,value=latest,enable={{ github.event_name == 'schedule' || (github.event_name == 'push' && contains(github.ref, 'refs/tags/') == false) }}
+            type=raw,value=latest,enable={{ github.event_name === 'schedule' || (github.event_name === 'push' && contains(github.ref, 'refs/tags/') === false) }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
