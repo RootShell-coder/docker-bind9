@@ -33,8 +33,8 @@ chmod 640 /etc/bind/rndc.key
 log "TLS Dot"
 mkdir -p /etc/ssl/bind/
 chown -R named:named /etc/ssl/bind
-chmod 644 "/etc/ssl/bind/server.crt"
-chmod 640 "/etc/ssl/bind/server.key"
+chmod 644 "/etc/ssl/bind/cert.pem"
+chmod 640 "/etc/ssl/bind/key.pem"
 
 log "Check configuration before starting"
 named-checkconf /etc/bind/named.conf
