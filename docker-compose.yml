@@ -1,7 +1,7 @@
 ---
 services:
   bind:
-    image: docker-bind9:latest
+    image: ghcr.io/rootshell-coder/docker-bind9:latest
     ports:
       - "53:53/udp"     # DNS
       - "53:53/tcp"     # DNS
@@ -17,6 +17,6 @@ services:
     #  - ./bind/acl.conf:/etc/bind/acl.conf
     #  - ./bind/option.conf:/bind/option.conf
     # environment:
-    #   - ADBLOCK="true"
-    #   - ADBLOCK_HOSTS_URL="https://raw.githubusercontent.com/StevenBlack/hosts/refs/heads/master/data/StevenBlack/hosts"
-    #   - ADBLOCK_RPZ_FILE="/etc/bind/adblock/db.rpz.adblock"
+    #   - DNS_ADBLOCK="true"
+    #   - DNS_ADBLOCK_HOSTS_URL="https://raw.githubusercontent.com/StevenBlack/hosts/refs/heads/master/data/StevenBlack/hosts"
+    #   - DNS_ADBLOCK_RPZ_FILE="/etc/bind/adblock/db.rpz.adblock"
