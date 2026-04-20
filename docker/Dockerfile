@@ -25,5 +25,4 @@ COPY ./cont-init.d /etc/cont-init.d
 RUN chmod +x /etc/services.d/*/run /etc/cont-init.d/*
 
 WORKDIR /etc/bind
-
 ENTRYPOINT ["/init"]
