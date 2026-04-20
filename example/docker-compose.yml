@@ -1,0 +1,14 @@
+---
+services:
+  bind:
+    image: ghcr.io/rootshell-coder/docker-bind9:latest
+    ports:
+      - "53:53/udp"
+      - "53:53/tcp"
+    # - "953:953/tcp"
+    restart: always
+    volumes:
+      - bind_keys:/var/cache/bind/keys
+      - ./bind:/etc/bind
+volumes:
+  bind_keys:
