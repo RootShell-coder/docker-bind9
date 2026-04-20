@@ -20,7 +20,6 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,7 +27,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Log into registry ${{ env.REGISTRY }}
         if: github.event_name != 'pull_request'
@@ -48,7 +47,7 @@ jobs:
             type=raw,value=latest,enable=${{ github.event_name == 'schedule' || (github.event_name == 'push' && !contains(github.ref, 'refs/tags/')) }}
 
       - name: Build and push Docker image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./docker
           push: ${{ github.event_name != 'pull_request' }}
