@@ -11,6 +11,7 @@ RUN set -eux; \
     bind \
     bind-libs \
     bind-tools \
+    bind-dnssec-tools \
     openssl \
     tzdata; \
   tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz; \
