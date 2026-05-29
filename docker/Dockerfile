@@ -13,7 +13,10 @@ RUN set -eux; \
     bind-tools \
     bind-dnssec-tools \
     openssl \
-    tzdata; \
+    tzdata \
+    fail2ban \
+    iptables \
+    ip6tables; \
   tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.xz; \
   tar -C / -Jxpf /tmp/s6-overlay-x86_64.tar.xz; \
   rm -rf /tmp/* /var/cache/apk/* /etc/bind/*; \
@@ -22,6 +25,8 @@ RUN set -eux; \
 COPY ./bind /etc/bind
 COPY ./services.d /etc/services.d
 COPY ./cont-init.d /etc/cont-init.d
+COPY ./fail2ban/jail.local /etc/fail2ban/jail.local
+COPY ./fail2ban/filter.d /etc/fail2ban/filter.d
 
 RUN chmod +x /etc/services.d/*/run /etc/cont-init.d/*
 

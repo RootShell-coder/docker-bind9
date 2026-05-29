@@ -1,0 +1,16 @@
+[DEFAULT]
+# Ban duration: 1 hour
+bantime  = 3600
+# Scan last 10 minutes for offenses
+findtime = 600
+# Default max retries before ban
+maxretry = 5
+
+[named-security]
+enabled  = true
+filter   = named-security
+logpath  = /var/log/named/security.log
+# Ban after 3 violations (refused queries / zone transfer attempts)
+maxretry = 3
+bantime  = 3600
+banaction = iptables-allports
