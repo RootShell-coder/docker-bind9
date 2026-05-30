@@ -1,3 +1,0 @@
-#!/bin/sh
-[ "${FAIL2BAN_ENABLED:-false}" = "true" ] || { echo "fail2ban disabled"; exec tail -f /dev/null; }
-exec fail2ban-server -f -x -s /run/fail2ban/fail2ban.sock 2>&1

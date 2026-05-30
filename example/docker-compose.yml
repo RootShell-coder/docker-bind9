@@ -7,10 +7,6 @@ services:
       - "53:53/tcp"
     # - "953:953/tcp"
     restart: always
-    environment:
-      - FAIL2BAN_ENABLED=false
-    cap_add:
-      - NET_ADMIN
     volumes:
       - bind_keys:/var/cache/bind/keys
       - ./bind:/etc/bind
